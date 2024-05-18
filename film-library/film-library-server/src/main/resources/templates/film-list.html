@@ -30,7 +30,7 @@
 <h1>Library Server</h1>
 <h2>Films:</h2>
 
-<a href = "create.html" th:href = "@{/create}">Create new film</a>
+<a href = "film-create.html" th:href = "@{/film/create}">Create new film</a>
 <table class="films">
     <thead>
     <tr>
@@ -61,7 +61,7 @@
                         <td>${film.year}</td>
                         <td>${film.rating}</td>
                         <td>
-                            <a href="/edit/${film.id}">Edit</a>
+                            <a href="/film/edit/${film.id}">Edit</a>
                             <button onclick="deleteFilm(${film.id})">Delete</button>
                         </td>
                     </tr>

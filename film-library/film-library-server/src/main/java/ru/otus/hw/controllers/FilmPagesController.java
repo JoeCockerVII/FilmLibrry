@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 public class FilmPagesController {
 
-    @GetMapping("/")
+    @GetMapping("/film/list")
     public String listPage() {
-        return "list";
+        return "film-list";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/film/edit/{id}")
     public String editPage(@PathVariable("id") long id, Model model) {
         model.addAttribute("id", id);
-        return "edit";
+        return "film-edit";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/film/create")
     public String createPage() {
-        return "create";
+        return "film-create";
     }
 
 
