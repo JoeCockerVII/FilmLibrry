@@ -14,4 +14,7 @@ public interface FilmRepository extends JpaRepository<Film,Long> {
 
     @EntityGraph(value = "author-genre-entity-graph")
     List<Film> findAll();
+
+    @EntityGraph(value = "author-genre-entity-graph")
+    Optional<Film> findFilmByTitle(String title);
 }

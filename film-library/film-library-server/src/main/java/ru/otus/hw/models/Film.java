@@ -1,7 +1,6 @@
 package ru.otus.hw.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -17,8 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
-
-import java.util.Set;
 
 @Setter
 @Getter
@@ -51,7 +48,5 @@ public class Film {
     @Column(name = "rating", nullable = false)
     private Double rating;
 
-    @ManyToMany(mappedBy = "films")
-    private Set<WatchList> watchLists;
 
 }

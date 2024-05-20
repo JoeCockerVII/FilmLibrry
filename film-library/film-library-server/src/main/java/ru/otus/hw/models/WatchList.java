@@ -55,7 +55,7 @@ public class WatchList {
         films.add(film);
     }
 
-    public void removeFilms(Film film) {
+    public void removeFilm(Film film) {
         films.remove(film);
     }
 

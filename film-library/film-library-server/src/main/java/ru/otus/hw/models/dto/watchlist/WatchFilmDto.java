@@ -1,4 +1,4 @@
-package ru.otus.hw.models.dto;
+package ru.otus.hw.models.dto.watchlist;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WatchListDto {
+public class WatchFilmDto {
 
-    private long id;
+    private Long id;
 
     private String title;
+
 
 }
