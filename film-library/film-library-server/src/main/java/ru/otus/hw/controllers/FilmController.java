@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.otus.hw.models.Film;
 import ru.otus.hw.models.dto.FilmCreateDto;
 import ru.otus.hw.models.dto.FilmDto;
 import ru.otus.hw.models.dto.FilmUpdateDto;
@@ -45,6 +46,16 @@ public class FilmController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFilm(@PathVariable("id") long id) {
         filmService.deleteById(id);
+    }
+
+    @GetMapping("/films/{id}")
+    public Film getFilmById(@PathVariable("id") long id) {
+        return filmService.findById(id);
+    }
+
+    @GetMapping("/films/title/{title}")
+    public Film getFilmByTitle(@PathVariable("title") String title) {
+        return filmService.findFilmByTitle(title);
     }
 
 }
