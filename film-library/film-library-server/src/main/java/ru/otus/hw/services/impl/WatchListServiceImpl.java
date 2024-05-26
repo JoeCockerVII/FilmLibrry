@@ -13,7 +13,6 @@ import ru.otus.hw.models.dto.watchlist.WatchListResponseDto;
 import ru.otus.hw.models.dto.watchlist.WatchListDto;
 import ru.otus.hw.models.dto.watchlist.WatchListUpdateDto;
 import ru.otus.hw.models.mappers.WatchListMapper;
-import ru.otus.hw.repositories.FilmRepository;
 import ru.otus.hw.repositories.UserRepository;
 import ru.otus.hw.repositories.WatchListRepository;
 import ru.otus.hw.services.WatchListService;
@@ -30,7 +29,7 @@ public class WatchListServiceImpl implements WatchListService {
 
     private final UserRepository userRepository;
 
-    private final FilmRepository filmRepository;
+    private final FilmServiceImpl filmService;
 
     private final WatchListMapper mapper;
 
@@ -80,7 +79,7 @@ public class WatchListServiceImpl implements WatchListService {
     @Override
     public WatchFilmAddResponseDto addFilmToWatchList(long id, WatchFilmAddRequestDto dto) {
         var watchList = watchListRepository.findById(id).orElseThrow(NotFoundException::new);
-        var film = filmRepository.findFilmByTitle(dto.getTitle()).orElseThrow(NotFoundException::new);
+        var film = filmService.findFilmByTitle(dto.getTitle());
         watchList.addFilms(film);
         watchListRepository.save(watchList);
 
@@ -91,7 +90,7 @@ public class WatchListServiceImpl implements WatchListService {
     @Override
     public void deleteFilmFromWatchList(long watchId, long filmId) {
         var watchList = watchListRepository.findById(watchId).orElseThrow(NotFoundException::new);
-        var film = filmRepository.findById(filmId).orElseThrow(NotFoundException::new);
+        var film = filmService.findById(filmId);
         watchList.removeFilm(film);
     }
 
