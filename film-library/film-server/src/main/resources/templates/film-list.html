@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="keywords" th:content="${keywords}"/>
+    <title>List of all films</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .films {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .films tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .films td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+
+</head>
+<body>
+<h1>Film Library Application</h1>
+<h2>Films:</h2>
+
+<a href = "film-create.html" th:href = "@{/film/create}">Create new film</a>
+<table class="films">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Year</th>
+        <th>Rating</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(function () {
+        $.get('/films').done(function (films) {
+            films.forEach(function (film) {
+                $('tbody').append(`
+                    <tr>
+                        <td>${film.id}</td>
+                        <td>${film.title}</td>
+                        <td>${film.author.id}</td>
+                        <td>${film.genre.id}</td>
+                        <td>${film.year}</td>
+                        <td>${film.rating}</td>
+                        <td>
+                            <a href="/film/edit/${film.id}">Edit</a>
+                            <button onclick="deleteFilm(${film.id})">Delete</button>
+                        </td>
+                    </tr>
+                `)
+            });
+        })
+    });
+
+    function deleteFilm(id) {
+        fetch("/films/"+ id, {
+            method: "DELETE"
+        })
+        .then(() => {
+            location.reload();
+        })
+    }
+</script>
+
+<button onclick="history.back()">Go Back</button>
+
+</body>
+</html>
