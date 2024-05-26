@@ -18,6 +18,7 @@ import java.util.Set;
 @Mapper
 public interface WatchListMapper {
 
+    @Mapping(target = "userName", source = "user.username")
     WatchListResponseDto toDto(WatchList watchList);
 
     @Mapping(target = "id", ignore = true)

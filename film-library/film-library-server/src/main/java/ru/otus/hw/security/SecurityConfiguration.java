@@ -28,11 +28,12 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/sign-up").permitAll()
                         .requestMatchers("/").authenticated()
-                        .requestMatchers("/edit", "/create").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/watchlists","/watch").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/watchlists/**","/watch/**").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/film/list").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/authors", "/genres", "/films").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/delete", "/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/**").hasAnyRole("ADMIN")
 
                         .anyRequest().denyAll()
                 )

@@ -11,6 +11,7 @@ import ru.otus.hw.models.dto.watchlist.WatchFilmAddResponseDto;
 import ru.otus.hw.models.dto.watchlist.WatchListCreateRequestDto;
 import ru.otus.hw.models.dto.watchlist.WatchListResponseDto;
 import ru.otus.hw.models.dto.watchlist.WatchListDto;
+import ru.otus.hw.models.dto.watchlist.WatchListUpdateDto;
 import ru.otus.hw.models.mappers.WatchListMapper;
 import ru.otus.hw.repositories.FilmRepository;
 import ru.otus.hw.repositories.UserRepository;
@@ -43,7 +44,8 @@ public class WatchListServiceImpl implements WatchListService {
     @Transactional(readOnly = true)
     @Override
     public Set<WatchListResponseDto> findAll() {
-        return watchListRepository.findAll()
+        var name = getAuthParams().getName();
+        return watchListRepository.findAllByUserUsername(name)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toSet());
@@ -58,6 +60,20 @@ public class WatchListServiceImpl implements WatchListService {
         var watchList = mapper.toModel(dto, user);
 
         return mapper.toDto(watchListRepository.save(watchList));
+    }
+
+    @Override
+    public WatchListResponseDto update(long id, WatchListUpdateDto dto) {
+        var watchList = watchListRepository.findById(id).orElseThrow(NotFoundException::new);
+        watchList.setTitle(dto.getTitle());
+
+        return mapper.toDto(watchListRepository.save(watchList));
+    }
+
+    @Transactional
+    @Override
+    public void delete(long id) {
+        watchListRepository.deleteById(id);
     }
 
     @Transactional

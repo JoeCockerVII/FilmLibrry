@@ -6,10 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 //@EnableDiscoveryClient
-public class FilmServerApplication {
+public class FilmLibraryServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FilmServerApplication.class, args);
+		SpringApplication.run(FilmLibraryServerApplication.class, args);
+		System.out.printf("Library Server Application address: %n%s%n", "http://localhost:8090/");
 		System.out.printf("Library Server Application address: %n%s%n", "http://localhost:8090/film/list");
 		System.out.printf("Library Server Application address: %n%s%n", "http://localhost:8090/watch/create");
 	}

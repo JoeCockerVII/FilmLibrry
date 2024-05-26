@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="keywords" th:content="${keywords}"/>
+    <title>List of all watchlists</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .watchlists {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .watchlists tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .watchlists td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+
+</head>
+<body>
+<h1>Film Library Application </h1>
+<h2>Watch Lists:</h2>
+
+<a href = "watch-create.html" th:href = "@{/watch/create}">Create new watchlist</a>
+<table class="watchlists">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(function () {
+        $.get('/watchlists').done(function (watchlists) {
+            watchlists.forEach(function (watch) {
+                $('tbody').append(`
+                    <tr>
+                        <td>${watch.id}</td>
+                        <td>${watch.title}</td>
+                        <td>
+                            <a href="/watch/edit/${watch.id}">Edit</a>
+                            <button onclick="deleteWatch(${watch.id})">Delete</button>
+                            <a href="/watch/info/${watch.id}"><button type="button">Info</button></a>
+                        </td>
+                    </tr>
+                `)
+            });
+        })
+    });
+
+    function deleteWatch(id) {
+        fetch("/watchlists/"+ id, {
+            method: "DELETE"
+        })
+        .then(() => {
+            location.reload();
+        })
+    }
+</script>
+
+<a href="film-list.html" th:href="@{/film/list}"><button type="button">List of all films</button></a>
+
+</body>
+</html>

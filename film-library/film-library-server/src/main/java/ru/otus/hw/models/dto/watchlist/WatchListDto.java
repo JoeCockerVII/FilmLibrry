@@ -3,6 +3,7 @@ package ru.otus.hw.models.dto.watchlist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.otus.hw.models.dto.FilmDto;
 
 import java.util.Set;
 
@@ -17,6 +18,6 @@ public class WatchListDto {
 
     private String userName;
 
-    private Set<WatchFilmDto> films;
+    private Set<FilmDto> films;
 
 }

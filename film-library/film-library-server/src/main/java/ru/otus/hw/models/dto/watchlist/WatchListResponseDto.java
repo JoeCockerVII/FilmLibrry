@@ -13,4 +13,6 @@ public class WatchListResponseDto {
 
     private String title;
 
+    private String userName;
+
 }

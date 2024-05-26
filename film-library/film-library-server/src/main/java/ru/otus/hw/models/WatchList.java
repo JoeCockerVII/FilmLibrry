@@ -19,7 +19,7 @@ import lombok.Setter;
 
 import java.util.Set;
 
-import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PRIVATE;
 
 @Setter
@@ -43,7 +43,7 @@ public class WatchList {
     private User user;
 
     @Setter(PRIVATE)
-    @ManyToMany(fetch = EAGER)
+    @ManyToMany(fetch = LAZY)
     @JoinTable(
             name = "watchlist_film_mtm",
             joinColumns = @JoinColumn(name = "watchlist_id"),

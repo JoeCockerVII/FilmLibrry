@@ -15,7 +15,6 @@ public interface FilmMapper {
     FilmDto toDto(Film film);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "watchLists", ignore = true)
     Film toModel(FilmCreateDto dto, Author author, Genre genre);
 
 
