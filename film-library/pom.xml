@@ -21,7 +21,6 @@
         <module>eureka-server</module>
         <module>film-library-server</module>
         <module>film-server</module>
-        <module>film-library-client</module>
     </modules>
 
     <packaging>pom</packaging>

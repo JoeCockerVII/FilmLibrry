@@ -1,8 +1,26 @@
 version: '3'
 services:
 
-  film-library-server:
-    container_name: 'film-library-server'
+  film-library-db:
+    image: "postgres:13"
+    container_name: 'film-library-db'
+    ports:
+      - "5430:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+
+  eureka-server-film:
+    container_name: 'eureka-server-film'
+    build:
+      context: .
+      dockerfile: eureka-server/Dockerfile
+    ports:
+      - "8761:8761"
+
+  watchlist-server:
+    container_name: 'watchlist-server'
     build:
       context: .
       dockerfile: film-library-server/Dockerfile
@@ -15,43 +33,46 @@ services:
       - SPRING_DATASOURCE_PASSWORD=postgres
       - eureka.client.register-with-eureka=true
       - eureka.client.fetch-registry=true
-      - eureka.client.service-url.defaultZone=http://eureka-server-hw18:8761/eureka/
+      - eureka.client.service-url.defaultZone=http://eureka-server-film:8761/eureka/
       - eureka.instance.prefer-ip-address=true
     depends_on:
       - film-library-db
-#      - eureka-server-film
+      - eureka-server-film
 
-  film-library-db:
-    image: "postgres:13"
-    container_name: 'film-library-db'
+
+  film-server:
+    container_name: 'film-server'
+    build:
+      context: .
+      dockerfile: film-server/Dockerfile
     ports:
-      - "5430:5432"
+      - "8100:8100"
+    # Эти свойства перегружают соответствующие в application.yml
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://film-library-db:5432/db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - eureka.client.register-with-eureka=true
+      - eureka.client.fetch-registry=true
+      - eureka.client.service-url.defaultZone=http://eureka-server-film:8761/eureka/
+      - eureka.instance.prefer-ip-address=true
+    depends_on:
+      - film-library-db
+      - eureka-server-film
 
-#  eureka-server-film:
-#    container_name: 'eureka-server-hw18'
+
+#  film-library-client:
+#    container_name: 'film-library-client'
 #    build:
 #      context: .
-#      dockerfile: eureka-server/Dockerfile
-#    ports:
-#      - "8761:8761"
-#
-#
-#  library-client:
-#    container_name: 'library-client-hw18'
-#    build:
-#      context: .
-#      dockerfile: library-client/Dockerfile
+#      dockerfile: film-library-client/Dockerfile
 #    ports:
 #      - "8070:8070"
 #    # Эти свойства перегружают соответствующие в application.yml
 #    environment:
 #      - eureka.client.register-with-eureka=true
 #      - eureka.client.fetch-registry=true
-#      - eureka.client.service-url.defaultZone=http://eureka-server-hw18:8761/eureka/
+#      - eureka.client.service-url.defaultZone=http://eureka-server-film:8761/eureka/
 #      - eureka.instance.prefer-ip-address=true
 #    depends_on:
-#      - eureka-server-hw18
+#      - eureka-server-film

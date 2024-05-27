@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.NotFoundException;
-import ru.otus.hw.models.Film;
 import ru.otus.hw.models.dto.FilmCreateDto;
 import ru.otus.hw.models.dto.FilmDto;
 import ru.otus.hw.models.dto.FilmUpdateDto;
@@ -31,8 +30,9 @@ public class FilmServiceImpl implements FilmService {
 
     @Transactional(readOnly = true)
     @Override
-    public Film findById(long id) {
-        return filmRepository.findById(id).orElseThrow(NotFoundException::new);
+    public FilmDto findById(long id) {
+        var film = filmRepository.findById(id).orElseThrow(NotFoundException::new);
+        return mapper.toDto(film);
     }
 
     @Transactional(readOnly = true)
@@ -80,7 +80,8 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     @Transactional
-    public Film findFilmByTitle(String title) {
-        return filmRepository.findFilmByTitle(title).orElseThrow(NotFoundException::new);
+    public FilmDto findByTitle(String title) {
+        var film = filmRepository.findFilmByTitle(title).orElseThrow(NotFoundException::new);
+        return mapper.toDto(film);
     }
 }

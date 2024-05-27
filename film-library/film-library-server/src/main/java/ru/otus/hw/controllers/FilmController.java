@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.otus.hw.models.Film;
+import ru.otus.hw.feign.FilmServiceProxy;
 import ru.otus.hw.models.dto.FilmCreateDto;
 import ru.otus.hw.models.dto.FilmDto;
 import ru.otus.hw.models.dto.FilmUpdateDto;
-import ru.otus.hw.services.FilmService;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmController {
 
-    private final FilmService filmService;
+    private final FilmServiceProxy filmService;
 
     @GetMapping("/films")
     public List<FilmDto> getFilms() {
@@ -39,23 +38,23 @@ public class FilmController {
     @PutMapping("/films/{id}")
     public FilmDto updateFilm(@PathVariable("id") long id, @Valid @RequestBody FilmUpdateDto filmUpdateDto) {
         filmUpdateDto.setId(id);
-        return filmService.update(filmUpdateDto);
+        return filmService.update(id, filmUpdateDto);
     }
 
     @DeleteMapping("/films/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFilm(@PathVariable("id") long id) {
-        filmService.deleteById(id);
+        filmService.delete(id);
     }
 
     @GetMapping("/films/{id}")
-    public Film getFilmById(@PathVariable("id") long id) {
+    public FilmDto getById(@PathVariable("id") long id) {
         return filmService.findById(id);
     }
 
     @GetMapping("/films/title/{title}")
-    public Film getFilmByTitle(@PathVariable("title") String title) {
-        return filmService.findFilmByTitle(title);
+    public FilmDto getByTitle(@PathVariable("title") String title) {
+        return filmService.findByTitle(title);
     }
 
 }

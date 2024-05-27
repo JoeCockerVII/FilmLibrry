@@ -1,6 +1,5 @@
 package ru.otus.hw.services;
 
-import ru.otus.hw.models.Film;
 import ru.otus.hw.models.dto.FilmCreateDto;
 import ru.otus.hw.models.dto.FilmDto;
 import ru.otus.hw.models.dto.FilmUpdateDto;
@@ -8,7 +7,7 @@ import ru.otus.hw.models.dto.FilmUpdateDto;
 import java.util.List;
 
 public interface FilmService {
-    Film findById(long id);
+    FilmDto findById(long id);
 
     List<FilmDto> findAll();
 
@@ -18,5 +17,5 @@ public interface FilmService {
 
     void deleteById(long id);
 
-    Film findFilmByTitle(String title);
+    FilmDto findByTitle(String title);
 }

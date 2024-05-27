@@ -6,12 +6,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.NotFoundException;
+import ru.otus.hw.feign.FilmServiceProxy;
 import ru.otus.hw.models.dto.watchlist.WatchFilmAddRequestDto;
 import ru.otus.hw.models.dto.watchlist.WatchFilmAddResponseDto;
 import ru.otus.hw.models.dto.watchlist.WatchListCreateRequestDto;
 import ru.otus.hw.models.dto.watchlist.WatchListResponseDto;
 import ru.otus.hw.models.dto.watchlist.WatchListDto;
 import ru.otus.hw.models.dto.watchlist.WatchListUpdateDto;
+import ru.otus.hw.models.mappers.FilmMapper;
 import ru.otus.hw.models.mappers.WatchListMapper;
 import ru.otus.hw.repositories.UserRepository;
 import ru.otus.hw.repositories.WatchListRepository;
@@ -29,9 +31,11 @@ public class WatchListServiceImpl implements WatchListService {
 
     private final UserRepository userRepository;
 
-    private final FilmServiceImpl filmService;
+    private final FilmServiceProxy filmService;
 
     private final WatchListMapper mapper;
+
+    private final FilmMapper filmMapper;
 
     @Transactional(readOnly = true)
     @Override
@@ -79,7 +83,7 @@ public class WatchListServiceImpl implements WatchListService {
     @Override
     public WatchFilmAddResponseDto addFilmToWatchList(long id, WatchFilmAddRequestDto dto) {
         var watchList = watchListRepository.findById(id).orElseThrow(NotFoundException::new);
-        var film = filmService.findFilmByTitle(dto.getTitle());
+        var film = filmMapper.toModel(filmService.findByTitle(dto.getTitle()));
         watchList.addFilms(film);
         watchListRepository.save(watchList);
 
@@ -90,7 +94,7 @@ public class WatchListServiceImpl implements WatchListService {
     @Override
     public void deleteFilmFromWatchList(long watchId, long filmId) {
         var watchList = watchListRepository.findById(watchId).orElseThrow(NotFoundException::new);
-        var film = filmService.findById(filmId);
+        var film = filmMapper.toModel(filmService.findById(filmId));
         watchList.removeFilm(film);
     }
 

@@ -1,6 +1,5 @@
 package ru.otus.hw.models;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -56,7 +55,7 @@ public class WatchList {
     }
 
     public void removeFilm(Film film) {
-        films.remove(film);
+        films.removeIf(n -> n.getTitle().equals(film.getTitle()));
     }
 
 }
