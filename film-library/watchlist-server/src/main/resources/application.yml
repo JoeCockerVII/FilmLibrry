@@ -9,7 +9,7 @@ server:
 
 spring:
   application:
-    name: film-library-server
+    name: watchlist-server
   sql:
     init:
       mode: always

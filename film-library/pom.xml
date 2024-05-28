@@ -19,7 +19,7 @@
 
     <modules>
         <module>eureka-server</module>
-        <module>film-library-server</module>
+        <module>watchlist-server</module>
         <module>film-server</module>
     </modules>
 

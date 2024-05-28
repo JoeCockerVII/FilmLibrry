@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/watchlists/**","/watch/**").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/film/list").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/authors", "/genres", "/films").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/**").hasAnyRole("USER","ADMIN")
 
                         .anyRequest().denyAll()
                 )

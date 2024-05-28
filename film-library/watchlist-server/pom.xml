@@ -10,12 +10,12 @@
         <relativePath/>
     </parent>
 
-    <description>film-library-server</description>
+    <description>watchlist-server</description>
 
     <groupId>ru.otus.hw</groupId>
-    <artifactId>film-library-server</artifactId>
+    <artifactId>watchlist-server</artifactId>
     <version>0.0.1</version>
-    <name>film-library-server</name>
+    <name>watchlist-server</name>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>

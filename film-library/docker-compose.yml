@@ -23,7 +23,7 @@ services:
     container_name: 'watchlist-server'
     build:
       context: .
-      dockerfile: film-library-server/Dockerfile
+      dockerfile: watchlist-server/Dockerfile
     ports:
       - "8090:8090"
     # Эти свойства перегружают соответствующие в application.yml
