@@ -61,18 +61,42 @@ services:
       - eureka-server-film
 
 
-#  film-library-client:
-#    container_name: 'film-library-client'
-#    build:
-#      context: .
-#      dockerfile: film-library-client/Dockerfile
-#    ports:
-#      - "8070:8070"
-#    # Эти свойства перегружают соответствующие в application.yml
-#    environment:
-#      - eureka.client.register-with-eureka=true
-#      - eureka.client.fetch-registry=true
-#      - eureka.client.service-url.defaultZone=http://eureka-server-film:8761/eureka/
-#      - eureka.instance.prefer-ip-address=true
-#    depends_on:
-#      - eureka-server-film
+  watch-notify-client:
+    container_name: 'watch-notify-client'
+    build:
+      context: .
+      dockerfile: watch-notify-client/Dockerfile
+    ports:
+      - "8150:8150"
+    # Эти свойства перегружают соответствующие в application.yml
+    environment:
+      - eureka.client.register-with-eureka=true
+      - eureka.client.fetch-registry=true
+      - eureka.client.service-url.defaultZone=http://eureka-server-film:8761/eureka/
+      - eureka.instance.prefer-ip-address=true
+    depends_on:
+      - eureka-server-film
+
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.2.0
+    container_name: 'zookeeper-flib'
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.0
+    container_name: 'zookeeper-flib'
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
