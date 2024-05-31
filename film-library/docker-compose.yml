@@ -1,9 +1,9 @@
 version: '3'
 services:
 
-  film-library-db:
+  db-flib:
     image: "postgres:13"
-    container_name: 'film-library-db'
+    container_name: 'db-flib'
     ports:
       - "5430:5432"
     environment:
@@ -11,8 +11,8 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=db
 
-  eureka-server-film:
-    container_name: 'eureka-server-film'
+  eureka-server-flib:
+    container_name: 'eureka-server-flib'
     build:
       context: .
       dockerfile: eureka-server/Dockerfile
@@ -28,16 +28,19 @@ services:
       - "8090:8090"
     # Эти свойства перегружают соответствующие в application.yml
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://film-library-db:5432/db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-flib:5432/db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - eureka.client.register-with-eureka=true
       - eureka.client.fetch-registry=true
-      - eureka.client.service-url.defaultZone=http://eureka-server-film:8761/eureka/
+      - eureka.client.service-url.defaultZone=http://eureka-server-flib:8761/eureka/
       - eureka.instance.prefer-ip-address=true
+      - spring.kafka.bootstrap-servers=broker:9092
+      - spring.kafka.producer.bootstrap-servers=broker:9092
     depends_on:
-      - film-library-db
-      - eureka-server-film
+      - db-flib
+      - eureka-server-flib
+      - broker
 
 
   film-server:
@@ -49,45 +52,52 @@ services:
       - "8100:8100"
     # Эти свойства перегружают соответствующие в application.yml
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://film-library-db:5432/db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-flib:5432/db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - eureka.client.register-with-eureka=true
       - eureka.client.fetch-registry=true
-      - eureka.client.service-url.defaultZone=http://eureka-server-film:8761/eureka/
+      - eureka.client.service-url.defaultZone=http://eureka-server-flib:8761/eureka/
       - eureka.instance.prefer-ip-address=true
     depends_on:
-      - film-library-db
-      - eureka-server-film
+      - db-flib
+      - eureka-server-flib
 
 
-  watch-notify-client:
-    container_name: 'watch-notify-client'
+  watch-film-stat-server:
+    container_name: 'watch-film-stat-server'
     build:
       context: .
-      dockerfile: watch-notify-client/Dockerfile
+      dockerfile: watch-film-stat-server/Dockerfile
     ports:
       - "8150:8150"
     # Эти свойства перегружают соответствующие в application.yml
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-flib:5432/db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
       - eureka.client.register-with-eureka=true
       - eureka.client.fetch-registry=true
-      - eureka.client.service-url.defaultZone=http://eureka-server-film:8761/eureka/
+      - eureka.client.service-url.defaultZone=http://eureka-server-flib:8761/eureka/
       - eureka.instance.prefer-ip-address=true
+      - spring.kafka.bootstrap-servers=broker:9092
+      - spring.kafka.consumer.bootstrap-servers=broker:9092
     depends_on:
-      - eureka-server-film
+      - db-flib
+      - eureka-server-flib
+      - broker
 
 
   zookeeper:
     image: confluentinc/cp-zookeeper:6.2.0
-    container_name: 'zookeeper-flib'
+    container_name: zookeeper-flib
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
-  kafka:
+  broker:
     image: confluentinc/cp-kafka:7.0.0
-    container_name: 'zookeeper-flib'
+    container_name: kafka-flib
     ports:
       - "9092:9092"
     depends_on:
@@ -96,7 +106,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_INTERNAL://broker:9093
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1

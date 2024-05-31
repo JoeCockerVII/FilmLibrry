@@ -10,12 +10,12 @@
         <relativePath/>
     </parent>
 
-    <description>watch-notify-client</description>
+    <description>watch-film-stat-server</description>
 
     <groupId>ru.otus.hw</groupId>
-    <artifactId>watch-notify-client</artifactId>
+    <artifactId>watch-film-stat-server</artifactId>
     <version>0.0.1</version>
-    <name>watch-notify-client</name>
+    <name>watch-film-stat-server</name>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
@@ -117,17 +117,6 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>${spring-boot-starter-security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

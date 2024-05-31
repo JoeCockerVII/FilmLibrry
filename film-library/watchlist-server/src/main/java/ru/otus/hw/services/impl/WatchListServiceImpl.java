@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.feign.FilmServiceProxy;
+import ru.otus.hw.models.dto.FilmNotifyDto;
 import ru.otus.hw.models.dto.watchlist.WatchFilmAddRequestDto;
 import ru.otus.hw.models.dto.watchlist.WatchFilmAddResponseDto;
 import ru.otus.hw.models.dto.watchlist.WatchListCreateRequestDto;
@@ -18,7 +19,9 @@ import ru.otus.hw.models.mappers.WatchListMapper;
 import ru.otus.hw.repositories.UserRepository;
 import ru.otus.hw.repositories.WatchListRepository;
 import ru.otus.hw.services.WatchListService;
+import ru.otus.hw.services.KafkaProducerService;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,6 +35,8 @@ public class WatchListServiceImpl implements WatchListService {
     private final UserRepository userRepository;
 
     private final FilmServiceProxy filmService;
+
+    private final KafkaProducerService kafkaProducerService;
 
     private final WatchListMapper mapper;
 
@@ -87,6 +92,15 @@ public class WatchListServiceImpl implements WatchListService {
         watchList.addFilms(film);
         watchListRepository.save(watchList);
 
+        var notifyDto = FilmNotifyDto
+                .builder()
+                .filmTitle(film.getTitle())
+                .year(film.getYear())
+                .rating(film.getRating())
+                .added(LocalDateTime.now())
+                .build();
+
+        kafkaProducerService.send(notifyDto);
         return mapper.toDto(film);
     }
 

@@ -21,7 +21,7 @@
         <module>eureka-server</module>
         <module>watchlist-server</module>
         <module>film-server</module>
-        <module>watch-notify-client</module>
+        <module>watch-film-stat-server</module>
     </modules>
 
     <packaging>pom</packaging>
