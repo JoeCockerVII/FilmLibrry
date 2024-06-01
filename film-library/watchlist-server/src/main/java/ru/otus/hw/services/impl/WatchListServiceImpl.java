@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.NotFoundException;
+import ru.otus.hw.exceptions.dto.EntityAlreadyExistException;
 import ru.otus.hw.feign.FilmServiceProxy;
 import ru.otus.hw.models.dto.FilmNotifyDto;
 import ru.otus.hw.models.dto.watchlist.WatchFilmAddRequestDto;
@@ -89,19 +90,23 @@ public class WatchListServiceImpl implements WatchListService {
     public WatchFilmAddResponseDto addFilmToWatchList(long id, WatchFilmAddRequestDto dto) {
         var watchList = watchListRepository.findById(id).orElseThrow(NotFoundException::new);
         var film = filmMapper.toModel(filmService.findByTitle(dto.getTitle()));
-        watchList.addFilms(film);
-        watchListRepository.save(watchList);
 
-        var notifyDto = FilmNotifyDto
-                .builder()
-                .filmTitle(film.getTitle())
-                .year(film.getYear())
-                .rating(film.getRating())
-                .added(LocalDateTime.now())
-                .build();
+        if (!watchList.isFilmExist(film.getTitle())) {
+            watchList.addFilms(film);
+            watchListRepository.save(watchList);
 
-        kafkaProducerService.send(notifyDto);
-        return mapper.toDto(film);
+            var notifyDto = FilmNotifyDto.builder()
+                    .filmTitle(film.getTitle())
+                    .year(film.getYear())
+                    .rating(film.getRating())
+                    .added(LocalDateTime.now())
+                    .build();
+
+            kafkaProducerService.send(notifyDto);
+            return mapper.toDto(film);
+        } else {
+            throw new EntityAlreadyExistException("Entity already exist");
+        }
     }
 
     @Transactional

@@ -35,8 +35,8 @@ services:
       - eureka.client.fetch-registry=true
       - eureka.client.service-url.defaultZone=http://eureka-server-flib:8761/eureka/
       - eureka.instance.prefer-ip-address=true
-      - spring.kafka.bootstrap-servers=broker:9092
-      - spring.kafka.producer.bootstrap-servers=broker:9092
+      - spring.kafka.bootstrap-servers=broker:9094
+      - spring.kafka.producer.bootstrap-servers=broker:9094
     depends_on:
       - db-flib
       - eureka-server-flib
@@ -80,8 +80,8 @@ services:
       - eureka.client.fetch-registry=true
       - eureka.client.service-url.defaultZone=http://eureka-server-flib:8761/eureka/
       - eureka.instance.prefer-ip-address=true
-      - spring.kafka.bootstrap-servers=broker:9092
-      - spring.kafka.consumer.bootstrap-servers=broker:9092
+      - spring.kafka.bootstrap-servers=broker:9094
+      - spring.kafka.consumer.bootstrap-servers=broker:9094
     depends_on:
       - db-flib
       - eureka-server-flib
@@ -100,13 +100,14 @@ services:
     container_name: kafka-flib
     ports:
       - "9092:9092"
+      - "9094:9094"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_INTERNAL://broker:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:9094
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1

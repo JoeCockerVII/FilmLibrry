@@ -58,4 +58,8 @@ public class WatchList {
         films.removeIf(n -> n.getTitle().equals(film.getTitle()));
     }
 
+    public boolean isFilmExist(String title) {
+        return films.stream().anyMatch(n -> n.getTitle().equals(title));
+    }
+
 }

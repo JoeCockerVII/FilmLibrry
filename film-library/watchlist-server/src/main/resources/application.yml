@@ -32,9 +32,14 @@ spring:
 #      ddl-auto: none
 
   kafka:
+    bootstrap-servers: "127.0.0.1:9092"
     producer:
       bootstrap-servers: "127.0.0.1:9092"
       client-id: "watch-notify-producer"
+
+application:
+  kafka:
+    topic: "watch-notify-topic"
 
 eureka:
   client:
@@ -44,7 +49,3 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-
-application:
-  kafka:
-    topic: "watch-notify-topic"
