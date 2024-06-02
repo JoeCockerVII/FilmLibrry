@@ -37,6 +37,7 @@ public class FilmStatServiceImpl implements FilmStatService {
         filmStatRepository.save(filmStat);
     }
 
+    @Transactional
     @Override
     public void deleteById(long id) {
         filmStatRepository.deleteById(id);

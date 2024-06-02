@@ -99,6 +99,8 @@ public class WatchListServiceImpl implements WatchListService {
                     .filmTitle(film.getTitle())
                     .filmYear(film.getFilmYear())
                     .rating(film.getRating())
+                    .author(film.getAuthor().getFullName())
+                    .genre(film.getGenre().getName())
                     .added(LocalDateTime.now())
                     .build();
 

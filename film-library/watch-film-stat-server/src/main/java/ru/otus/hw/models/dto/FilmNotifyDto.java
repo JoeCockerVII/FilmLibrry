@@ -11,6 +11,10 @@ public class FilmNotifyDto {
 
     private Long filmYear;
 
+    private String author;
+
+    private String genre;
+
     private Double rating;
 
     private LocalDateTime added;

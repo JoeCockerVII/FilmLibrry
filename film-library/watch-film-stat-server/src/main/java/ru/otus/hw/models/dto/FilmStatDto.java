@@ -15,6 +15,10 @@ public class FilmStatDto {
 
     private Long filmYear;
 
+    private String author;
+
+    private String genre;
+
     private Double rating;
 
     private Long favoritesCounter;

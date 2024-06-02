@@ -29,6 +29,12 @@ public class FilmStat {
     @Column(name = "filmYear", nullable = false)
     private Long filmYear;
 
+    @Column(name = "author", nullable = false)
+    private String author;
+
+    @Column(name = "genre", nullable = false)
+    private String genre;
+
     @Column(name = "rating", nullable = false)
     private Double rating;
 
