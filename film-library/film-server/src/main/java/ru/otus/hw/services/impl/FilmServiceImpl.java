@@ -66,7 +66,7 @@ public class FilmServiceImpl implements FilmService {
         film.setTitle(dto.getTitle());
         film.setAuthor(author);
         film.setGenre(genre);
-        film.setYear(dto.getYear());
+        film.setFilmYear(dto.getFilmYear());
         film.setRating(dto.getRating());
 
         return mapper.toDto(filmRepository.save(film));

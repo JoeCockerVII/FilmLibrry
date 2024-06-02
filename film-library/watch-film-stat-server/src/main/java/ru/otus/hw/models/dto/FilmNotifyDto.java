@@ -9,7 +9,7 @@ public class FilmNotifyDto {
 
     private String filmTitle;
 
-    private Long year;
+    private Long filmYear;
 
     private Double rating;
 

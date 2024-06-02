@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Column;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedAttributeNode;
@@ -34,16 +33,16 @@ public class Film {
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @Column(name = "year", nullable = false)
-    private Long year;
+    @Column(name = "filmYear", nullable = false)
+    private Long filmYear;
 
     @Column(name = "rating", nullable = false)
     private Double rating;

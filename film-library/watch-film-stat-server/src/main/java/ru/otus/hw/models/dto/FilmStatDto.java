@@ -13,7 +13,7 @@ public class FilmStatDto {
 
     private String title;
 
-    private Long year;
+    private Long filmYear;
 
     private Double rating;
 

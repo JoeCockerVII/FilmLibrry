@@ -13,7 +13,7 @@ create table if not exists films(
     title varchar(255),
     author_id bigint references authors(author_id) on delete cascade,
     genre_id bigint references genres(genre_id) on delete cascade,
-    year bigserial,
+    film_year bigserial,
     rating real,
     primary key (film_id)
 );

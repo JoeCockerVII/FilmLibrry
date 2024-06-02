@@ -26,8 +26,8 @@ public class FilmStat {
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "year", nullable = false)
-    private Long year;
+    @Column(name = "filmYear", nullable = false)
+    private Long filmYear;
 
     @Column(name = "rating", nullable = false)
     private Double rating;

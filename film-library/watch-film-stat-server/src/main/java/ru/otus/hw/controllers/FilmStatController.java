@@ -18,12 +18,12 @@ public class FilmStatController {
 
     private final FilmStatService filmStatService;
 
-    @GetMapping("/films")
+    @GetMapping("/stats")
     public List<FilmStatDto> getAllStats() {
         return filmStatService.findAll();
     }
 
-    @DeleteMapping("/films/{id}")
+    @DeleteMapping("/stats/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStat(@PathVariable("id") long id) {
         filmStatService.deleteById(id);

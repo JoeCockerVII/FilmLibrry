@@ -29,7 +29,7 @@ public class FilmUpdateDto {
 
     @NotNull
     @Positive
-    private Long year;
+    private Long filmYear;
 
     @NotNull
     @Positive

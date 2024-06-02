@@ -97,7 +97,7 @@ public class WatchListServiceImpl implements WatchListService {
 
             var notifyDto = FilmNotifyDto.builder()
                     .filmTitle(film.getTitle())
-                    .year(film.getYear())
+                    .filmYear(film.getFilmYear())
                     .rating(film.getRating())
                     .added(LocalDateTime.now())
                     .build();
