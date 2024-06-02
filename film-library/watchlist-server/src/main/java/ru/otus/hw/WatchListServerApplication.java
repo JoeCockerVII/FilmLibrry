@@ -12,9 +12,7 @@ public class WatchListServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WatchListServerApplication.class, args);
-		System.out.printf("WatchList Server Application address: %n%s%n", "http://localhost:8090/");
-		System.out.printf("WatchList Server Application address: %n%s%n", "http://localhost:8090/film/list");
-		System.out.printf("WatchList Server Application address: %n%s%n", "http://localhost:8090/watch/create");
+		System.out.printf("WatchList Server App URL: %n%s%n", "http://localhost:8090/");
 	}
 
 }

@@ -54,13 +54,18 @@ public interface FilmServiceProxy {
                 new FilmDto(101L,"Title_101",
                         new AuthorDto(101L,"Author_101"),
                         new GenreDto(101L, "Genre_101"),
-                        1993L,10D
+                        2000L,9.8D
                 ),
                 new FilmDto(102L,"Title_102",
-                        new AuthorDto(102L,"Author_101"),
+                        new AuthorDto(102L,"Author_102"),
                         new GenreDto(102L, "Genre_102"),
-                        1994L,10D
-                )
+                        2001L,9.99D
+                ),
+                new FilmDto(103L,"Title_103",
+                        new AuthorDto(103L,"Author_103"),
+                        new GenreDto(103L, "Genre_103"),
+                        2002L,10D
+        )
         );
     }
 

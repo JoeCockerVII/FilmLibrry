@@ -15,12 +15,7 @@ create table if not exists films(
     title varchar(255),
     author_id bigint references authors(author_id) on delete cascade,
     genre_id bigint references genres(genre_id) on delete cascade,
+    film_year bigserial,
+    rating real,
     primary key (film_id)
-);
-
-create table if not exists comments(
-    comment_id bigserial,
-    text varchar(255),
-    film_id bigint references films(film_id) on delete cascade,
-    primary key (comment_id)
 );

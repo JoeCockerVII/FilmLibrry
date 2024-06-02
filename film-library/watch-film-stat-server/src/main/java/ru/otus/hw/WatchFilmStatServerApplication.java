@@ -4,13 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-@EnableDiscoveryClient
 @SpringBootApplication
+@EnableDiscoveryClient
 public class WatchFilmStatServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WatchFilmStatServerApplication.class, args);
-		System.out.printf(" Statistic Server App URL: %n%s%n", "http://localhost:8150/");
+		System.out.printf("Statistic Server App URL: %n%s%n", "http://localhost:8150/");
 	}
 
 }
