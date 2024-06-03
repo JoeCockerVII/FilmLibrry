@@ -9,7 +9,7 @@ INSERT INTO users (username, password, role_id)
 
 
 INSERT INTO watchlist (title, user_id)
-    VALUES ('WatchList 1', 2),
-           ('WatchList 2', 2),
-           ('WatchList 1', 1)
+    VALUES ('Admin WatchList 1', 2),
+           ('Admin WatchList 2', 2),
+           ('User WatchList 1', 1)
     ON CONFLICT (title) DO NOTHING;

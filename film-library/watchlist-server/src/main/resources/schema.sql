@@ -13,7 +13,5 @@ create table if not exists users (
 create table if not exists watchlist (
     watchlist_id SERIAL PRIMARY KEY NOT NULL,
     title varchar(255),
-    film_id bigint references films(film_id) on delete cascade,
-    user_id bigint references users(user_id) on delete cascade,
-    status varchar(255)
+    user_id bigint references users(user_id) on delete cascade
 );
