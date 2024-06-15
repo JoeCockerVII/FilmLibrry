@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit film</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h3>Add new Film to WatchList:</h3>
+<form id="edit-form" th:method="post">
+
+    <div class="row">
+        <label for="film-title-input">Title:</label>
+        <input id="film-title-input" name="title" type="text" th:value="*{title}"/>
+    </div>
+
+    <div class="row">
+        <button type="button" onclick="saveFilm()">Save</button>
+        <a href="watch-info.html" th:href = "@{/watch/info/{id} (id=${id}) }"><button type="button">Go Back</button></a>
+    </div>
+</form>
+
+<ul id="id" th:value="${id}" ></ul>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function saveFilm() {
+        const savedFilmContainer = document.getElementById("saved-film")
+        const titleInput = document.getElementById("film-title-input")
+
+        const film = {
+            title: titleInput.value,
+        }
+
+        function formUrl(){
+            return '/watchlists/' + document.getElementById("id").getAttribute("value") + '/film'
+        }
+
+        fetch(formUrl(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(film)})
+        .then(rawResponse => rawResponse.json())
+        .then(json => savedFilmContainer.innerHTML = JSON.stringify(json, null, 4))
+    }
+</script>
+
+
+<h3>Saved film:</h3>
+<pre id = "saved-film"></pre>
+
+</body>
+</html>

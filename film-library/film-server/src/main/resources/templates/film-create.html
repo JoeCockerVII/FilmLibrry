@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit film</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h3>Form for add new film:</h3>
+<form id="edit-form" action="film-create.html" th:method="post">
+
+    <div class="row">
+        <label for="film-title-input">Title:</label>
+        <input id="film-title-input" name="title" type="text" th:value="*{title}"/>
+    </div>
+
+    <div class="row">
+        <label for="authorId">Author:</label>
+        <select id="authorId" name="authorId">
+            <option value="">Select Author</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="genreId">Genre:</label>
+        <select id="genreId" name="genreId">
+            <option value="">Select Genre</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="film-year-input">Year:</label>
+        <input id="film-year-input" name="year" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="film-rating-input">Rating:</label>
+        <input id="film-rating-input" name="rating" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <button type="button" onclick="saveFilm()">Save</button>
+        <a href="film-list.html" th:href="@{/film/list}">
+            <button type="button">Go Back</button>
+        </a>
+    </div>
+
+
+</form>
+
+<script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    function saveFilm() {
+        const savedFilmContainer = document.getElementById("saved-film")
+
+        const titleInput = document.getElementById("film-title-input")
+        const authorInput = document.getElementById("authorId")
+        const genreInput = document.getElementById("genreId")
+        const yearInput = document.getElementById("film-year-input")
+        const ratingInput = document.getElementById("film-rating-input")
+
+        const film = {
+            title: titleInput.value,
+            authorId: authorInput.value,
+            genreId: genreInput.value,
+            filmYear: yearInput.value,
+            rating: ratingInput.value
+        }
+
+        fetch("/films", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(film)})
+        .then(rawResponse => rawResponse.json())
+        .then(json => savedFilmContainer.innerHTML = JSON.stringify(json, null, 4))
+    }
+</script>
+
+<script>
+    $(function () {
+        $.ajax({
+            url: "/authors",
+            type: "GET",
+            dataType: "json",
+            success: function(authors) {
+                $.each(authors, function(i, author) {
+                    $("#authorId").append("<option value='" + author.id + "'>" + author.fullName + "</option>");
+                });
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $(function () {
+        $.ajax({
+            url: "/genres",
+            type: "GET",
+            dataType: "json",
+            success: function(genres) {
+                $.each(genres, function(i, genre) {
+                    $("#genreId").append("<option value='" + genre.id + "'>" + genre.name + "</option>");
+                });
+            }
+        });
+    });
+</script>
+
+<h3>Saved film:</h3>
+<pre id = "saved-film"></pre>
+
+</body>
+</html>

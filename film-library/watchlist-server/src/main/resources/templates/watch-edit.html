@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Watchlist</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Edit WatchList</h1>
+<form id="edit-form" action="watch-edit.html" >
+
+    <div class="row">
+        <label for="watch-id-input">ID:</label>
+        <input id="watch-id-input" type="text" readonly="readonly" name="id" th:value="${id}" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="watch-title-input">Title:</label>
+        <input id="watch-title-input" type="text" name="title" th:value="${title}" value=""/>
+    </div>
+
+    <div class="row">
+        <button type="button" onclick="updateWatch()">Update</button>
+        <a href="watch-list.html" th:href="@{/}"><button type="button">Go Back</button></a>
+    </div>
+
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+        function updateWatch() {
+            const savedWatchContainer = document.getElementById("edited-watch")
+            const watchId = document.getElementById("watch-id-input")
+            const titleInput = document.getElementById("watch-title-input")
+
+            const watch = {
+                id: watchId.value,
+                title: titleInput.value
+            }
+
+            fetch("/watchlists/" + watch.id, {
+                method: 'PUT',
+                referrer: "",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(watch)})
+            .then(rawResponse => rawResponse.json())
+            .then(json => savedWatchContainer.innerHTML = JSON.stringify(json, null, 4))
+        }
+</script>
+
+<h3>Edited watchlist:</h3>
+<pre id="edited-watch"></pre>
+</body>
+</html>

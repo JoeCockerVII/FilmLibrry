@@ -1,0 +1,41 @@
+server:
+  error:
+    include-message: always
+    include-exception: true
+    include-binding-errors: always
+  servlet:
+    context-path:
+  port: 8100
+
+spring:
+  application:
+    name: film-server
+  sql:
+    init:
+      mode: always
+#      mode: never
+      data-locations: "classpath:data-film.sql"
+      schema-locations: "classpath:schema-film.sql"
+
+  datasource:
+    # Эти свойства будут перегружены свойствами в docker-compose.yml
+    url: jdbc:postgresql://localhost:5430/db
+    username: postgres
+    password: postgres
+  jpa:
+    defer-datasource-initialization: true
+    generate-ddl: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+#      ddl-auto: create
+#      ddl-auto: none
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
