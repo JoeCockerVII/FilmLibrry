@@ -27,7 +27,7 @@ public class FilmStat {
     private String title;
 
     @Column(name = "filmYear", nullable = false)
-    private Long filmYear;
+    private long filmYear;
 
     @Column(name = "author", nullable = false)
     private String author;

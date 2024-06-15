@@ -42,7 +42,7 @@ public class Film {
     private Genre genre;
 
     @Column(name = "filmYear", nullable = false)
-    private Long filmYear;
+    private long filmYear;
 
     @Column(name = "rating", nullable = false)
     private Double rating;

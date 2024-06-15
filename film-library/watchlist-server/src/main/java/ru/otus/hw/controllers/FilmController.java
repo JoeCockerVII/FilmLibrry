@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.otus.hw.feign.FilmServiceProxy;
+import ru.otus.hw.feign.FilmService;
 import ru.otus.hw.models.dto.FilmCreateDto;
 import ru.otus.hw.models.dto.FilmDto;
 import ru.otus.hw.models.dto.FilmUpdateDto;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmController {
 
-    private final FilmServiceProxy filmService;
+    private final FilmService filmService;
 
     @GetMapping("/films")
     public List<FilmDto> getFilms() {

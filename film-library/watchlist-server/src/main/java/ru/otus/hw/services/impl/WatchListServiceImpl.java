@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.exceptions.dto.EntityAlreadyExistException;
-import ru.otus.hw.feign.FilmServiceProxy;
+import ru.otus.hw.feign.FilmService;
 import ru.otus.hw.models.dto.FilmNotifyDto;
 import ru.otus.hw.models.dto.watchlist.WatchFilmAddRequestDto;
 import ru.otus.hw.models.dto.watchlist.WatchFilmAddResponseDto;
@@ -35,7 +35,7 @@ public class WatchListServiceImpl implements WatchListService {
 
     private final UserRepository userRepository;
 
-    private final FilmServiceProxy filmService;
+    private final FilmService filmService;
 
     private final KafkaProducerService kafkaProducerService;
 

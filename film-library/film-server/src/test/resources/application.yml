@@ -16,7 +16,7 @@ spring:
     init:
       mode: always
       data-locations: data.sql
-      schema-locations: schema.sql
+      schema-locations: schema-film.sql
   h2:
     console:
       path: /h2-console

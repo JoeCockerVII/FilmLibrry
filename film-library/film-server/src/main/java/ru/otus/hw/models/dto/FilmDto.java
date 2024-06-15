@@ -17,7 +17,7 @@ public class FilmDto {
 
     private GenreDto genre;
 
-    private Long filmYear;
+    private long filmYear;
 
     private Double rating;
 

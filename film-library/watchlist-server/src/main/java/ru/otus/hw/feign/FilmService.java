@@ -20,7 +20,7 @@ import ru.otus.hw.models.dto.GenreDto;
 import java.util.List;
 
 @FeignClient(name = "film-server", contextId = "films")
-public interface FilmServiceProxy {
+public interface FilmService {
 
     @CircuitBreaker(name = "film-server", fallbackMethod = "getDefaultFilms")
     @GetMapping("/films")

@@ -9,7 +9,7 @@ public class FilmNotifyDto {
 
     private String filmTitle;
 
-    private Long filmYear;
+    private long filmYear;
 
     private String author;
 

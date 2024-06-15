@@ -26,7 +26,7 @@ public class FilmCreateDto {
 
     @NotNull
     @Positive
-    private Long filmYear;
+    private long filmYear;
 
     @NotNull
     @Positive

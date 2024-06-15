@@ -13,7 +13,7 @@ public class FilmStatDto {
 
     private String title;
 
-    private Long filmYear;
+    private long filmYear;
 
     private String author;
 
